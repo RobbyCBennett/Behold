@@ -1,0 +1,37 @@
+{
+	"manifest_version": 2,
+	"name": "Behold - Focus from AFK Distractions",
+	"short_name": "Behold",
+	"description": "Get reminded every time you get distracted by a phone, person, etc.",
+	"author": "Claire, Ryann, Robby",
+	"version": "1.0",
+
+	// "icons": {
+	// 	"128": "icon128.png",
+	// 	"48": "icon48.png",
+	// 	"16": "icon16.png"
+	// },
+	// "browser_action": {
+	// 	"default_icon": "icon128.png"
+	// },
+
+	"permissions": [
+		"tabs",
+		"storage"
+	],
+	"background": {
+		"scripts": [
+			"background.js"
+		]
+	},
+
+	"commands": {
+		"focusMode": {
+			"description": "Focus Mode",
+			"suggested_key": {
+				"default": "Ctrl+B",
+				"mac": "Command+B"
+			}
+		}
+	}
+}

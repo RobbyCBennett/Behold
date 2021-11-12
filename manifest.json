@@ -26,11 +26,7 @@
 
 	"commands": {
 		"focusMode": {
-			"description": "Focus Mode",
-			"suggested_key": {
-				"default": "Ctrl+B",
-				"mac": "Command+B"
-			}
+			"description": "Focus Mode"
 		}
 	}
 }

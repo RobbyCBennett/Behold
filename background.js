@@ -1,3 +1,6 @@
+// Documentation:
+// https://developer.chrome.com/docs/extensions/reference/idle/
+
 focusMode = true;
 
 chrome.commands.onCommand.addListener(command => {

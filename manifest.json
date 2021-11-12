@@ -16,9 +16,7 @@
 	// },
 
 	"permissions": [
-		"idle",
-		"tabs",
-		"storage"
+		"idle"
 	],
 	"background": {
 		"scripts": [

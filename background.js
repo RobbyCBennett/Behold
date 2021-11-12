@@ -1,24 +1,36 @@
-// Documentation:
-// https://developer.chrome.com/docs/extensions/reference/idle/
+// Global Variables
+focusMode = false;
+seconds = 15;
+interval = null;
 
-focusMode = true;
+// Functions
+function warning() {
+	alert('Get back to work!');
+}
 
+// Main
 chrome.commands.onCommand.addListener(command => {
 	if (command == 'focusMode') {
+
 		if (focusMode) {
 			alert('Starting focus mode');
-		} else {
+
+			interval = setInterval(() => {
+				chrome.idle.queryState(seconds, state => {
+					if (state == 'idle') {
+						warning();
+					}
+				});
+			}, seconds * 1000);
+		}
+		
+		else {
 			alert('All done :)');
+
+			clearInterval(interval);
 		}
 
 		focusMode = ! focusMode;
+
 	}
 });
-
-function warning() {
-	if (focusMode) {
-		alert('Inactive for 30 seconds');
-	}
-}
-
-chrome.idle.queryState(30, warning);

@@ -6,14 +6,60 @@ interval = null;
 function get(key, callback = null) {
 	chrome.storage.local.get(key, callback);
 }
-
 function set(keyValue, callback = null) {
 	chrome.storage.local.set(keyValue, callback);
 }
 
+function year() {
+	today = new Date();
+	yyyy = today.getFullYear();
+	return 'year' + yyyy;
+}
+function month() {
+	today = new Date();
+	mm = String(today.getMonth() + 1).padStart(2, '0');
+	return 'month' + mm;
+}
+function date() {
+	today = new Date();
+	dd = String(today.getDate()).padStart(2, '0');
+	return 'date' + dd;
+}
+
+function debugStorage() {
+	get(null, (result) => {
+		console.log(result);
+	});
+}
+
 // Functions
-function saveCurrentTime() {
-	
+function addDistraction() {
+	get('distractions', (result) => {
+		// Get distractions and current day
+		distractions = result.distractions;
+		currentYear = year();
+		currentMonth = month();
+		currentDate = date();
+
+		// Make the missing objects
+		if (! distractions)
+			distractions = {'total': 0};
+		if (! distractions[currentYear])
+			distractions[currentYear] = {'total': 0};
+		if (! distractions[currentYear][currentMonth])
+			distractions[currentYear][currentMonth] = {'total': 0};
+		if (! distractions[currentYear][currentMonth][currentDate])
+			distractions[currentYear][currentMonth][currentDate] = 0;
+
+		// Add one to each total
+		distractions['total'] += 1;
+		distractions[currentYear]['total'] += 1;
+		distractions[currentYear][currentMonth]['total'] += 1;
+		distractions[currentYear][currentMonth][currentDate]['total'] += 1;
+
+		// Save the distractions object
+		set({'distractions': distractions}, debugStorage);
+	});
 }
 
 function warning() {
@@ -22,9 +68,9 @@ function warning() {
 			var sound = new Audio('buzzing.wav');
 			sound.play();
 
-			saveCurrentTime();
+			addDistraction();
 
-			alert('Get back to work!');
+			// alert('Get back to work!');
 		} else {
 			clearInterval(interval);
 		}

@@ -21,9 +21,9 @@ function changeWorkMode(withAlerts = false) {
 	get('workMode', (result) => {
 		workMode = result.workMode;
 		if (!workMode) {
-			// if (withAlerts === true) {
+			if (withAlerts === true) {
 				alert('Starting work mode');
-			// }
+			}
 
 			interval = setInterval(() => {
 				chrome.idle.queryState(seconds, state => {
@@ -35,9 +35,9 @@ function changeWorkMode(withAlerts = false) {
 		}
 		
 		else {
-			// if (withAlerts === true) {
+			if (withAlerts === true) {
 				alert('All done :)');
-			// }
+			}
 
 			clearInterval(interval);
 		}

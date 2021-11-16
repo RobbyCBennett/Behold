@@ -16,15 +16,14 @@ function saveCurrentTime() {
 	setSync()
 }
 
-function play() {
-	var audio = new Audio('buzzing.wav');
-	audio.play();
-  }
-  
+
+
 function warning() {
 	get('workMode', (result) => {
 		if (result.workMode) {
 			alert('Get back to work!');
+			var sound = new Audio('buzzing.wav');
+			sound.play();
 			saveCurrentTime();
 		} else {
 			clearInterval(interval);

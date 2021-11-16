@@ -1,0 +1,29 @@
+:root {
+	/* Colors */
+	--yellow: #FFD252;
+
+	--light: #E8EAED;
+
+	--dark: #424346;
+	--darker: #303133;
+	--darkest: #292A2D;
+
+	/* Border Radius */
+	--round: 1.0rem;
+}
+
+body {
+	color: var(--light);
+	background-color: var(--darkest);
+}
+
+button {
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+	border-radius: var(--round);
+}
+
+.hidden {
+	display: none;
+}

@@ -46,7 +46,7 @@ function changeWorkMode(withAlerts = false) {
 						warning();
 					}
 				});
-			}, seconds * 1000);
+			},  1000);
 		}
 		
 		else {

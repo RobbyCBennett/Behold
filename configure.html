@@ -4,14 +4,55 @@
 	</head>
 	<body>
 
-		<div id='main'>
+		<div id='main' class='vSpaceBetween'>
 			<h1>AFK Tracker</h1>
-			<button id='summaryButton'>Work Summary</button>
+			
+			<div>
+				<div id='workingHours' class='rounded darker padding hCenter marginTop'>
+					<p>Enter working hours</p>
+				</div>
+	
+				<p class='hCenter orMargin'>or</p>
+	
+				<div id='workMode' class='rounded darker padding hCenter'>
+					<div class='vCenter'>
+						<p>Enable work mode</p>
+						<input id='workMode' type='checkbox'>
+					</div>
+				</div>
+			</div>
+			
+			<div class='hSpaceBetween marginTop'>
+				<button id='summaryButton'>Work Summary</button>
+
+				<div class='vCenter'>
+					<p>Sound</p>
+					<input id='sound' type='checkbox'>
+				</div>
+			</div>
 		</div>
+
 		<div id='summary' class='hidden'>
 			<button id='back'>&lt;</button>
 			<h1>Summary</h1>
+
+			<div class='hSpaceBetween marginTop'>
+				<button id='dailyButton' class='selected'>Daily</button>
+				<button id='weeklyButton'>Weekly</button>
+				<button id='monthlyButton'>Monthly</button>
+			</div>
+
+			<h2 class='marginTop'>
+				<span id='total'>6</span>
+				<span id='timeSpan'>reminders this week</span>
+			</h2>
+
+			<div id='graph' class='rounded darker marginTop'>
+
+			</div>
 		</div>
+
+		<button id='close'>x</button>
 
 		<script src='configure.js'></script>
 	</body>

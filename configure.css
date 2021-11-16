@@ -1,29 +1,183 @@
 :root {
 	/* Colors */
-	--yellow: #FFD252;
-
 	--light: #E8EAED;
+	--lightYellow: #F4DEA0;
+	--yellow: #FFD252;
 
 	--dark: #424346;
 	--darker: #303133;
 	--darkest: #292A2D;
 
-	/* Border Radius */
-	--round: 1.0rem;
+	/* Border-Radius */
+	--rounded: 0.375rem;
+
+	/* Spacing */
+	--margin: 2rem;
+	--paddingTop: 1rem;
+	--paddingLeft: 2rem;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+	margin: 0;
 }
 
 body {
+	margin: var(--margin);
 	color: var(--light);
 	background-color: var(--darkest);
+	width: 30rem;
+	height: 25rem;
+}
+
+body, button, input, h1, h2, h3, h4, h5, h6 {
+	font-family: 'Roboto';
+	font-weight: 300;
+}
+
+button, input[type='checkbox'], input[type='checkbox']::after, input[type='checkbox']::before {
+	cursor: pointer;
+	transition: all 0.25s;
 }
 
 button {
+	color: var(--darkest);
+	background-color: var(--light);
+	border-radius: var(--rounded);
 	border: none;
-	background-color: transparent;
-	cursor: pointer;
-	border-radius: var(--round);
+	padding: 0.5em 1.5em;
+	text-transform: uppercase;
+}
+button:hover {
+	background-color: var(--lightYellow);
+}
+button:active {
+	background-color: var(--yellow);
 }
 
-.hidden {
+/* Slider */
+input[type='checkbox'] {
+	position: relative;
+	width: 2.5rem;
+	height: 1.25rem;
+	margin-left: 1rem;
+}
+/* Slider Background */
+input[type='checkbox']::after {
+	content: '';
+	display: block;
+	width: 2.5rem;
+	height: 1.25rem;
+	border-radius: 1.25rem;
+	background-color: var(--light);
+}
+input[type='checkbox']:hover::after {
+	background-color: var(--lightYellow);
+}
+input[type='checkbox']:checked::after {
+	background-color: var(--yellow);
+}
+/* Slider Knob */
+input[type='checkbox']::before {
+	content: '';
+	position: absolute;
+	display: block;
+	width: 1rem;
+	height: 1rem;
+	border-radius: 1rem;
+	top: 0.125rem;
+    left: 0.125rem;
+	background-color: var(--darkest);
+	transform: translateX(0);
+}
+input[type='checkbox']:checked::before {
+	transform: translateX(1.25rem);
+}
+
+h1 {
+	display: inline-block;
+}
+
+#close {
+	padding: 0;
+	width: 1.25rem;
+	height: 1.25rem;
+	border-radius: 50%;
+	position: absolute;
+	top: var(--margin);
+	right: var(--margin);
+}
+
+#back {
+	color: var(--light);
+	background-color: transparent;
+	font-size: 2rem;
+	padding: 0;
+	font-weight: 100;
+	margin-right: 1rem;
+}
+#back:hover {
+	color: var(--yellow);
+}
+
+#dailyButton, #weeklyButton, #monthlyButton {
+	font-size: 1.25rem;
+	color: var(--light);
+	background-color: transparent;
+}
+#dailyButton.selected, #weeklyButton.selected, #monthlyButton.selected {
+	color: var(--darkest);
+	background-color: var(--yellow);
+}
+
+#total {
+	color: var(--yellow);
+}
+
+#graph {
+	width: 100%;
+	height: 12rem;
+}
+
+.hidden, .vSpaceBetween.hidden {
 	display: none;
+}
+
+.darker {
+	background-color: var(--darker);
+}
+
+.rounded {
+	border-radius: var(--rounded);
+}
+
+
+.padding {
+	padding: var(--paddingTop) var(--paddingLeft);
+}
+
+.marginTop {
+	margin-top: var(--margin);
+}
+
+.orMargin {
+	margin: 1rem 0;
+}
+
+.hSpaceBetween {
+	display: flex;
+	justify-content: space-between;
+}
+.vSpaceBetween {
+	display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+}
+
+.hCenter {
+	text-align: center;
+}
+.vCenter {
+	display: inline-flex;
+    align-items: center;
 }

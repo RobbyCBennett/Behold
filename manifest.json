@@ -27,8 +27,8 @@
 	},
 
 	"commands": {
-		"focusMode": {
-			"description": "Focus Mode"
+		"toggleFocusMode": {
+			"description": "Toggle focus mode"
 		}
 	}
 }

@@ -10,7 +10,7 @@ function warning() {
 
 // Main
 chrome.commands.onCommand.addListener(command => {
-	if (command == 'focusMode') {
+	if (command == 'toggleFocusMode') {
 
 		if (focusMode) {
 			alert('Starting focus mode');

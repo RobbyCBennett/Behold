@@ -35,6 +35,11 @@ function warning() {
 	});
 }
 
+function play() {
+	var audio = new Audio('buzzing.wav');
+	audio.play();
+  }
+
 function changeWorkMode(withAlerts = false) {
 	getLocal('workMode', (result) => {
 		workMode = result.workMode;

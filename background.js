@@ -11,6 +11,14 @@ function setLocal(keyValue, callback = null) {
 	chrome.storage.local.set(keyValue, callback);
 }
 
+function getSync(key, callback = null) {
+	chrome.storage.sync.get(key, callback);
+}
+
+function setSync(keyValue, callback = null) {
+	chrome.storage.sync.set(keyValue, callback);
+}
+
 // Functions
 function saveCurrentTime() {
 	

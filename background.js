@@ -65,12 +65,18 @@ function addDistraction() {
 function warning() {
 	get('workMode', (result) => {
 		if (result.workMode) {
-			var sound = new Audio('buzzing.wav');
-			sound.play();
-
+			
 			addDistraction();
 
-			// alert('Get back to work!');
+			alert('Get back to work!');
+			
+			get('soundMode', (result) => {
+				if (result.soundMode) {
+					var sound = new Audio('buzzing.wav');
+					sound.play();
+				}
+			});
+
 		} else {
 			clearInterval(interval);
 		}

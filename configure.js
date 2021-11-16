@@ -26,28 +26,42 @@ get('workMode', (result) => {
 	workModeSwitch.checked = workMode;
 });
 
+// Toggle Sound Mode
+function changeSoundMode() {
+	get('soundMode', (result) => {
+		soundMode = result.soundMode;
+		set({'soundMode': !soundMode});
+	});
+}
+soundModeSwitch = document.getElementById('sound');
+soundModeSwitch.onclick = changeSoundMode;
+get('soundMode', (result) => {
+	soundMode = result.soundMode;
+	soundModeSwitch.checked = soundMode;
+});
+
 // Graph Navigation
 dailyButton = document.getElementById('dailyButton');
 weeklyButton = document.getElementById('weeklyButton');
 monthlyButton = document.getElementById('monthlyButton');
 
-function daily() {
+function viewDaily() {
 	dailyButton.classList = 'selected';
 	weeklyButton.classList = '';
 	monthlyButton.classList = '';
 }
-dailyButton.onclick = daily;
+dailyButton.onclick = viewDaily;
 
-function weekly() {
+function viewWeekly() {
 	dailyButton.classList = '';
 	weeklyButton.classList = 'selected';
 	monthlyButton.classList = '';
 }
-weeklyButton.onclick = weekly;
+weeklyButton.onclick = viewWeekly;
 
-function monthly() {
+function viewMonthly() {
 	dailyButton.classList = '';
 	weeklyButton.classList = '';
 	monthlyButton.classList = 'selected';
 }
-monthlyButton.onclick = monthly;
+monthlyButton.onclick = viewMonthly;

@@ -5,6 +5,11 @@
 boolean
 ```
 
+**sound**
+```
+boolean
+```
+
 **distractions**
 ```
 {

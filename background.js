@@ -16,6 +16,11 @@ function saveCurrentTime() {
 	setSync()
 }
 
+function play() {
+	var audio = new Audio('buzzing.wav');
+	audio.play();
+  }
+  
 function warning() {
 	get('workMode', (result) => {
 		if (result.workMode) {
@@ -27,10 +32,6 @@ function warning() {
 	});
 }
 
-function play() {
-	var audio = new Audio('buzzing.wav');
-	audio.play();
-  }
 
 function changeWorkMode(withAlerts = false) {
 	get('workMode', (result) => {

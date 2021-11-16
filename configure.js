@@ -21,7 +21,7 @@ document.getElementById('summaryButton').onclick = summary;
 // Toggle Work Mode
 workModeSwitch = document.getElementById('workMode');
 workModeSwitch.onclick = changeWorkMode;
-get('workMode', (result) => {
+getLocal('workMode', (result) => {
 	workMode = result.workMode;
 	workModeSwitch.checked = workMode;
 });

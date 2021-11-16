@@ -3,20 +3,24 @@ seconds = 15;
 interval = null;
 
 // API Helper Functions
-
-function get(key, callback = null) {
+function getLocal(key, callback = null) {
 	chrome.storage.local.get(key, callback);
 }
 
-function set(keyValue, callback = null) {
+function setLocal(keyValue, callback = null) {
 	chrome.storage.local.set(keyValue, callback);
 }
 
 // Functions
+function saveCurrentTime() {
+	
+}
+
 function warning() {
-	get('workMode', (result) => {
+	getLocal('workMode', (result) => {
 		if (result.workMode) {
 			alert('Get back to work!');
+			saveCurrentTime();
 		} else {
 			clearInterval(interval);
 		}
@@ -24,7 +28,7 @@ function warning() {
 }
 
 function changeWorkMode(withAlerts = false) {
-	get('workMode', (result) => {
+	getLocal('workMode', (result) => {
 		workMode = result.workMode;
 		if (!workMode) {
 			if (withAlerts === true) {
@@ -48,7 +52,7 @@ function changeWorkMode(withAlerts = false) {
 			clearInterval(interval);
 		}
 
-		set({'workMode': !workMode});
+		setLocal({'workMode': !workMode});
 	});
 }
 

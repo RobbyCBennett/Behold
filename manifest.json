@@ -18,7 +18,8 @@
 	},
 
 	"permissions": [
-		"idle"
+		"idle",
+		"storage"
 	],
 	"background": {
 		"scripts": [
@@ -27,8 +28,8 @@
 	},
 
 	"commands": {
-		"toggleFocusMode": {
-			"description": "Toggle focus mode"
+		"toggleWorkMode": {
+			"description": "Toggle work mode"
 		}
 	}
 }

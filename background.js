@@ -1,19 +1,29 @@
 // Global Variables
-focusMode = false;
 seconds = 15;
 interval = null;
+
+// API Helper Functions
+
+function get(key, callback = null) {
+	chrome.storage.local.get(key, callback);
+}
+
+function set(keyValue, callback = null) {
+	chrome.storage.local.set(keyValue, callback);
+}
 
 // Functions
 function warning() {
 	alert('Get back to work!');
 }
 
-// Main
-chrome.commands.onCommand.addListener(command => {
-	if (command == 'toggleFocusMode') {
-
-		if (focusMode) {
-			alert('Starting focus mode');
+function changeWorkMode(withAlerts = false) {
+	get('workMode', (result) => {
+		workMode = result.workMode;
+		if (!workMode) {
+			// if (withAlerts === true) {
+				alert('Starting work mode');
+			// }
 
 			interval = setInterval(() => {
 				chrome.idle.queryState(seconds, state => {
@@ -25,12 +35,20 @@ chrome.commands.onCommand.addListener(command => {
 		}
 		
 		else {
-			alert('All done :)');
+			// if (withAlerts === true) {
+				alert('All done :)');
+			// }
 
 			clearInterval(interval);
 		}
 
-		focusMode = ! focusMode;
+		set({'workMode': !workMode});
+	});
+}
 
+// Main
+chrome.commands.onCommand.addListener(command => {
+	if (command == 'toggleWorkMode') {
+		changeWorkMode(true);
 	}
 });

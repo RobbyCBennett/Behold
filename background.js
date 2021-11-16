@@ -13,10 +13,8 @@ function set(keyValue, callback = null) {
 
 // Functions
 function saveCurrentTime() {
-	setSync()
+	
 }
-
-
 
 function warning() {
 	get('workMode', (result) => {

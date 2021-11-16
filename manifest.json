@@ -30,6 +30,9 @@
 	"commands": {
 		"toggleWorkMode": {
 			"description": "Toggle work mode"
+		},
+		"debug": {
+			"description": "Debug"
 		}
 	}
 }

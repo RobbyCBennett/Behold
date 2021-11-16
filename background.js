@@ -19,7 +19,7 @@ function saveCurrentTime() {
 function warning() {
 	get('workMode', (result) => {
 		if (result.workMode) {
-		l	var sound = new Audio('buzzing.wav');
+			var sound = new Audio('buzzing.wav');
 			sound.play();
 
 			saveCurrentTime();
@@ -66,7 +66,9 @@ function changeWorkMode(withAlerts = false) {
 chrome.commands.onCommand.addListener(command => {
 	if (command == 'toggleWorkMode') {
 		changeWorkMode(true);
+	} else if (command == 'debug') {
+		set({'workMode': true}, (result) => {
+			warning();
+		});
 	}
 });
-
-//claire's test comment

@@ -13,10 +13,8 @@ function set(keyValue, callback = null) {
 
 // Functions
 function saveCurrentTime() {
-	setSync()
+	
 }
-
-
 
 function warning() {
 	get('workMode', (result) => {
@@ -46,7 +44,8 @@ function changeWorkMode(withAlerts = false) {
 						warning();
 					}
 				});
-			},  1000);
+				console.log('1 second')
+			}, 1000);
 		}
 		
 		else {

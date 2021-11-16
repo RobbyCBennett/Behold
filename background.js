@@ -58,3 +58,5 @@ chrome.commands.onCommand.addListener(command => {
 		changeWorkMode(true);
 	}
 });
+
+//claire's test comment

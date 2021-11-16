@@ -14,7 +14,13 @@ function set(keyValue, callback = null) {
 
 // Functions
 function warning() {
-	alert('Get back to work!');
+	get('workMode', (result) => {
+		if (result.workMode) {
+			alert('Get back to work!');
+		} else {
+			clearInterval(interval);
+		}
+	});
 }
 
 function changeWorkMode(withAlerts = false) {

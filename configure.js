@@ -1,3 +1,15 @@
+// Helper Functions
+function getNestedObject(object, strings) {
+	if (!object)
+		return null;
+	for (string of strings) {
+		object = object[string]
+		if (!object)
+			return null;
+	}
+	return object;
+}
+
 // Page Navigation
 function back() {
 	main = document.getElementById('main');
@@ -14,6 +26,8 @@ function summary() {
 
 	main.classList.add('hidden');
 	summary.classList.remove('hidden');
+
+	viewDaily();
 }
 document.getElementById('summaryButton').onclick = summary;
 
@@ -45,10 +59,34 @@ dailyButton = document.getElementById('dailyButton');
 weeklyButton = document.getElementById('weeklyButton');
 monthlyButton = document.getElementById('monthlyButton');
 
+function updateGraph(period) {
+	get('distractions', (result) => {
+		distractions = result.distractions;
+
+		if (period == 'daily') {
+			// Get info
+			date = getNestedObject(distractions, year(), month(), date());
+
+			// Get divs
+			daily = document.getElementById('daily');
+			bars = daily.getElementsByClassName('bars')[0];
+			yAxis = daily.getElementsByClassName('yAxis')[0];
+
+			// Clear
+			bars.innerHTML = '';
+			yAxis.innerHTML = '';
+			xAxis.innerHTML = '';
+
+			// Create x axis
+		}
+	});
+}
+
 function viewDaily() {
 	dailyButton.classList = 'selected';
 	weeklyButton.classList = '';
 	monthlyButton.classList = '';
+	updateGraph('daily');
 }
 dailyButton.onclick = viewDaily;
 
@@ -56,6 +94,7 @@ function viewWeekly() {
 	dailyButton.classList = '';
 	weeklyButton.classList = 'selected';
 	monthlyButton.classList = '';
+	updateGraph('weekly');
 }
 weeklyButton.onclick = viewWeekly;
 
@@ -63,5 +102,6 @@ function viewMonthly() {
 	dailyButton.classList = '';
 	weeklyButton.classList = '';
 	monthlyButton.classList = 'selected';
+	updateGraph('monthly');
 }
 monthlyButton.onclick = viewMonthly;

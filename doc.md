@@ -5,7 +5,7 @@
 boolean
 ```
 
-**sound**
+**soundMode**
 ```
 boolean
 ```

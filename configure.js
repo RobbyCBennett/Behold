@@ -55,10 +55,6 @@ get('soundMode', (result) => {
 });
 
 // Graph Navigation
-dailyButton = document.getElementById('dailyButton');
-weeklyButton = document.getElementById('weeklyButton');
-monthlyButton = document.getElementById('monthlyButton');
-
 function updateGraph(period) {
 	get('distractions', (result) => {
 		distractions = result.distractions;
@@ -128,10 +124,23 @@ function updateGraph(period) {
 	});
 }
 
+dailyButton = document.getElementById('dailyButton');
+weeklyButton = document.getElementById('weeklyButton');
+monthlyButton = document.getElementById('monthlyButton');
+
+dailySection = document.getElementById('daily');
+weeklySection = document.getElementById('weekly');
+monthlySection = document.getElementById('monthly');
+
 function viewDaily() {
 	dailyButton.classList = 'selected';
 	weeklyButton.classList = '';
 	monthlyButton.classList = '';
+
+	dailySection.classList = '';
+	weeklySection.classList = 'hidden';
+	monthlySection.classList = 'hidden';
+
 	updateGraph('daily');
 }
 dailyButton.onclick = viewDaily;
@@ -140,6 +149,11 @@ function viewWeekly() {
 	dailyButton.classList = '';
 	weeklyButton.classList = 'selected';
 	monthlyButton.classList = '';
+
+	dailySection.classList = 'hidden';
+	weeklySection.classList = '';
+	monthlySection.classList = 'hidden';
+
 	updateGraph('weekly');
 }
 weeklyButton.onclick = viewWeekly;
@@ -148,6 +162,11 @@ function viewMonthly() {
 	dailyButton.classList = '';
 	weeklyButton.classList = '';
 	monthlyButton.classList = 'selected';
+
+	dailySection.classList = 'hidden';
+	weeklySection.classList = 'hidden';
+	monthlySection.classList = '';
+
 	updateGraph('monthly');
 }
 monthlyButton.onclick = viewMonthly;

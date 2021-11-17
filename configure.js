@@ -95,10 +95,10 @@ function updateGraph(period) {
 
 			// Set total
 			document.getElementById('total').innerHTML = total;
-			document.getElementById('timeSpan').innerHTML = 'reminders this week';
+			document.getElementById('timeSpan').innerHTML = 'reminders in the last 7 days';
 
 			// Create y-axis
-			for (i=1; i<=4; i++) {
+			for (i=0; i<=4; i++) {
 				yAxis.innerHTML += '<p>' + (i/4 * max) + '</p>';
 			}
 

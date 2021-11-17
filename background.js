@@ -10,20 +10,20 @@ function set(keyValue, callback = null) {
 	chrome.storage.local.set(keyValue, callback);
 }
 
-function year() {
-	today = new Date();
-	yyyy = today.getFullYear();
+function year(day=new Date()) {
+	yyyy = day.getFullYear();
 	return 'year' + yyyy;
 }
-function month() {
-	today = new Date();
-	mm = String(today.getMonth() + 1).padStart(2, '0');
+function month(day=new Date()) {
+	mm = String(day.getMonth() + 1).padStart(2, '0');
 	return 'month' + mm;
 }
-function date() {
-	today = new Date();
-	dd = String(today.getDate()).padStart(2, '0');
+function date(day=new Date()) {
+	dd = String(day.getDate()).padStart(2, '0');
 	return 'date' + dd;
+}
+function weekday(day=new Date()) {
+	return day.getDay();
 }
 
 function debugStorage() {
@@ -55,7 +55,7 @@ function addDistraction() {
 		distractions['total'] += 1;
 		distractions[currentYear]['total'] += 1;
 		distractions[currentYear][currentMonth]['total'] += 1;
-		distractions[currentYear][currentMonth][currentDate]['total'] += 1;
+		distractions[currentYear][currentMonth][currentDate] += 1;
 
 		// Save the distractions object
 		set({'distractions': distractions}, debugStorage);

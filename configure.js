@@ -3,7 +3,7 @@ function getNestedObject(object, strings) {
 	if (!object)
 		return null;
 	for (string of strings) {
-		object = object[string]
+		object = object[string];
 		if (!object)
 			return null;
 	}
@@ -64,20 +64,66 @@ function updateGraph(period) {
 		distractions = result.distractions;
 
 		if (period == 'daily') {
-			// Get info
-			date = getNestedObject(distractions, year(), month(), date());
+			// Get the last 7 days
+			total = 0;
+			max = 0;
+			weekDistractions = [];
+			day = new Date();
+			for (i=0; i<7; i++) {
+				distraction = getNestedObject(distractions, [year(day), month(day), date(day)]);
+				if (distraction) {
+					total += distraction;
+					weekDistractions.push(distraction);
+					if (distraction > max)
+						max = distraction;
+				}
+				else {
+					weekDistractions.push(0);
+				}
+				day.setDate(day.getDate() - 1);
+			}
+
+			// Round max up to the nearest 4, because there are 4 y-axis labels
+			max += (4 - max % 4);
 
 			// Get divs
 			daily = document.getElementById('daily');
 			bars = daily.getElementsByClassName('bars')[0];
 			yAxis = daily.getElementsByClassName('yAxis')[0];
+			xAxis = daily.getElementsByClassName('xAxis')[0];
 
 			// Clear
 			bars.innerHTML = '';
 			yAxis.innerHTML = '';
 			xAxis.innerHTML = '';
 
-			// Create x axis
+			// Set total
+			document.getElementById('total').innerHTML = total;
+			document.getElementById('timeSpan').innerHTML = 'reminders this week';
+
+			// Create y-axis
+			for (i=1; i<=4; i++) {
+				yAxis.innerHTML += '<p>' + (i/4 * max) + '</p>';
+			}
+
+			// Create x-axis
+			weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+			i = weekday() + 1;
+			if (i == 7)
+				i = 0;
+			while (i != weekday()) {
+				xAxis.innerHTML += '<p>' + weekdays[i] + '</p>';
+				i += 1;
+				if (i == 7)
+					i = 0;
+			}
+			xAxis.innerHTML += '<p>' + weekdays[i] + '</p>';
+
+			// Create bars
+			for (i=6; i>=0; i--) {
+				height = (weekDistractions[i] / max * 100);
+				bars.innerHTML += '<div class="bar" style="height: ' + height + '%;"></div>';
+			}
 		}
 	});
 }

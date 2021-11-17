@@ -165,6 +165,7 @@ h1 {
 	margin-left: 5%;
 	display: flex;
 	justify-content: space-between;
+	align-items: flex-end;
 }
 .bar {
 	background-color: var(--yellow);

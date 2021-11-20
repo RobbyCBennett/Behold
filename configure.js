@@ -10,6 +10,12 @@ function getNestedObject(object, strings) {
 	return object;
 }
 
+// Close
+function closeConfig() {
+	window.close();
+}
+document.getElementById('close').onclick = closeConfig;
+
 // Page Navigation
 function back() {
 	main = document.getElementById('main');

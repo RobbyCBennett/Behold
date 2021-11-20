@@ -219,3 +219,19 @@ h1 {
 	display: inline-flex;
     align-items: center;
 }
+
+.time-flex {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin: 10px 0px 10px 0px;
+}
+
+.edit-time {
+	background-color: #E8EAED;
+	border-radius: 5px;
+	height: 100%;
+	padding: 5px;
+	margin: 0px 5px 0px 5px;
+}

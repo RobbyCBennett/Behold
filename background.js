@@ -14,6 +14,9 @@ function year(day=new Date()) {
 	yyyy = day.getFullYear();
 	return 'year' + yyyy;
 }
+function monthNumber(day=new Date()) {
+	return day.getMonth() + 1;
+}
 function month(day=new Date()) {
 	mm = String(day.getMonth() + 1).padStart(2, '0');
 	return 'month' + mm;

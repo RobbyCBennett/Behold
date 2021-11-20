@@ -63,24 +63,26 @@ function updateGraph(period) {
 			// Get the last 7 days
 			total = 0;
 			max = 0;
-			weekDistractions = [];
+			dayDistractions = [];
 			day = new Date();
+			day.setDate(1);
 			for (i=0; i<7; i++) {
 				distraction = getNestedObject(distractions, [year(day), month(day), date(day)]);
 				if (distraction) {
 					total += distraction;
-					weekDistractions.push(distraction);
+					dayDistractions.push(distraction);
 					if (distraction > max)
 						max = distraction;
 				}
 				else {
-					weekDistractions.push(0);
+					dayDistractions.push(0);
 				}
 				day.setDate(day.getDate() - 1);
 			}
 
 			// Round max up to the nearest 4, because there are 4 y-axis labels
-			max += (4 - max % 4);
+			yAxisLabels = 4;
+			max += (yAxisLabels - max % yAxisLabels);
 
 			// Get divs
 			daily = document.getElementById('daily');
@@ -98,8 +100,8 @@ function updateGraph(period) {
 			document.getElementById('timeSpan').innerHTML = 'reminders in the last 7 days';
 
 			// Create y-axis
-			for (i=0; i<=4; i++) {
-				yAxis.innerHTML += '<p>' + (i/4 * max) + '</p>';
+			for (i=0; i<=yAxisLabels; i++) {
+				yAxis.innerHTML += '<p>' + (i/yAxisLabels * max) + '</p>';
 			}
 
 			// Create x-axis
@@ -117,10 +119,75 @@ function updateGraph(period) {
 
 			// Create bars
 			for (i=6; i>=0; i--) {
-				height = (weekDistractions[i] / max * 100);
+				height = (dayDistractions[i] / max * 100);
 				bars.innerHTML += '<div class="bar" style="height: ' + height + '%;"></div>';
 			}
 		}
+
+		else if (period == 'monthly') {
+			// Get the last 12 months
+			total = 0;
+			max = 0;
+			monthDistractions = [];
+			day = new Date();
+			for (i=0; i<12; i++) {
+				distraction = getNestedObject(distractions, [year(day), month(day), 'total']);
+				if (distraction) {
+					total += distraction;
+					monthDistractions.push(distraction);
+					if (distraction > max)
+						max = distraction;
+				}
+				else {
+					monthDistractions.push(0);
+				}
+				day.setMonth(day.getMonth() - 1);
+			}
+
+			// Round max up to the nearest 4, because there are 4 y-axis labels
+			yAxisLabels = 4;
+			max += (yAxisLabels - max % yAxisLabels);
+
+			// Get divs
+			daily = document.getElementById('monthly');
+			bars = daily.getElementsByClassName('bars')[0];
+			yAxis = daily.getElementsByClassName('yAxis')[0];
+			xAxis = daily.getElementsByClassName('xAxis')[0];
+
+			// Clear
+			bars.innerHTML = '';
+			yAxis.innerHTML = '';
+			xAxis.innerHTML = '';
+
+			// Set total
+			document.getElementById('total').innerHTML = total;
+			document.getElementById('timeSpan').innerHTML = 'reminders in the last 12 months';
+
+			// Create y-axis
+			for (i=0; i<=yAxisLabels; i++) {
+				yAxis.innerHTML += '<p>' + (i/yAxisLabels * max) + '</p>';
+			}
+
+			// Create x-axis
+			months = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+			i = monthNumber();
+			if (i == 12)
+				i = 0;
+			while (i != monthNumber() - 1) {
+				xAxis.innerHTML += '<p>' + months[i] + '</p>';
+				i += 1;
+				if (i == 12)
+					i = 0;
+			}
+			xAxis.innerHTML += '<p>' + months[i] + '</p>';
+
+			// Create bars
+			for (i=11; i>=0; i--) {
+				height = (monthDistractions[i] / max * 100);
+				bars.innerHTML += '<div class="bar" style="height: ' + height + '%;"></div>';
+			}
+		}
+
 	});
 }
 

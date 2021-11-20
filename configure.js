@@ -65,7 +65,6 @@ function updateGraph(period) {
 			max = 0;
 			dayDistractions = [];
 			day = new Date();
-			day.setDate(1);
 			for (i=0; i<7; i++) {
 				distraction = getNestedObject(distractions, [year(day), month(day), date(day)]);
 				if (distraction) {
@@ -130,6 +129,7 @@ function updateGraph(period) {
 			max = 0;
 			monthDistractions = [];
 			day = new Date();
+			day.setDate(1);
 			for (i=0; i<12; i++) {
 				distraction = getNestedObject(distractions, [year(day), month(day), 'total']);
 				if (distraction) {
@@ -149,10 +149,10 @@ function updateGraph(period) {
 			max += (yAxisLabels - max % yAxisLabels);
 
 			// Get divs
-			daily = document.getElementById('monthly');
-			bars = daily.getElementsByClassName('bars')[0];
-			yAxis = daily.getElementsByClassName('yAxis')[0];
-			xAxis = daily.getElementsByClassName('xAxis')[0];
+			monthly = document.getElementById('monthly');
+			bars = monthly.getElementsByClassName('bars')[0];
+			yAxis = monthly.getElementsByClassName('yAxis')[0];
+			xAxis = monthly.getElementsByClassName('xAxis')[0];
 
 			// Clear
 			bars.innerHTML = '';

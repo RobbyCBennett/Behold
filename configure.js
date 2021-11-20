@@ -26,6 +26,11 @@ function back() {
 }
 document.getElementById('back').onclick = back;
 
+function closeWindow() {
+	window.close();
+}
+document.getElementById('close').onclick = closeWindow;
+
 function summary() {
 	main = document.getElementById('main');
 	summary = document.getElementById('summary');

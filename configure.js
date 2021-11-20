@@ -36,7 +36,6 @@ function summary() {
 }
 document.getElementById('summaryButton').onclick = summary;
 
-
 // Toggle Work Mode
 workModeSwitch = document.getElementById('workMode');
 workModeSwitch.onclick = changeWorkMode;
@@ -44,6 +43,48 @@ get('workMode', (result) => {
 	workMode = result.workMode;
 	workModeSwitch.checked = workMode;
 });
+
+// Working Hours
+beginTimeField = document.getElementById('beginTime');
+endTimeField = document.getElementById('endTime');
+function loadWorkingTime() {
+	get(null, (result) => {
+		beginTime = result.beginTime;
+		endTime = result.endTime;
+
+		if (beginTime)
+			beginTimeField.value = beginTime;
+		if (endTime)
+			endTimeField.value = endTime;
+	});
+}
+loadWorkingTime();
+function changeWorkingTime(event) {
+	key = event.target.id;
+	value = event.target.value;
+
+	// Set the time
+	set({[key]: value}, () => {
+
+		// Toggle the working mode switch when the work time is changed
+		get(null, (result) => {
+			beginTime = result.beginTime;
+			endTime = result.endTime;
+			currentTime = time();
+			workMode = result.workMode;
+			if (beginTime && endTime) {
+				begin = timeCompare(currentTime, beginTime);
+				end = timeCompare(currentTime, endTime);
+				duringWorkingTime = (begin == '>' || begin == '=') && end == '<';
+				if (duringWorkingTime && !workMode || !duringWorkingTime && workMode) {
+					workModeSwitch.click();
+				}
+			}
+		});
+	});
+}
+beginTimeField.onchange = changeWorkingTime;
+endTimeField.onchange = changeWorkingTime;
 
 // Toggle Sound Mode
 function changeSoundMode() {

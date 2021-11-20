@@ -1,5 +1,15 @@
 # storage.local
 
+**beginTime**
+```
+string: '13:00'
+```
+
+**endTime**
+```
+string: '20:00'
+```
+
 **workMode**
 ```
 boolean

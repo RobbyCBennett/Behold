@@ -1,6 +1,7 @@
 // Global Variables
 seconds = 15;
-interval = null;
+idleInterval = null;
+workingHoursInterval = null;
 
 // API Helper Functions
 function get(key, callback = null) {
@@ -27,6 +28,26 @@ function date(day=new Date()) {
 }
 function weekday(day=new Date()) {
 	return day.getDay();
+}
+function time(day=new Date()) {
+	return String(day.getHours()).padStart(2, '0') + ':' + String(day.getMinutes()).padStart(2, '0');
+}
+function timeCompare(time1, time2) {
+	time1 = time1.split(':');
+	time2 = time2.split(':');
+	hours1 = parseInt(time1[0]);
+	hours2 = parseInt(time2[0]);
+	minutes1 = parseInt(time1[1]);
+	minutes2 = parseInt(time2[1]);
+	totalMinutes1 = hours1 * 60 + minutes1;
+	totalMinutes2 = hours2 * 60 + minutes2;
+
+	if (totalMinutes1 < totalMinutes2)
+		return '<';
+	else if (totalMinutes1 > totalMinutes2)
+		return '>';
+	else
+		return '=';
 }
 
 function debugStorage() {
@@ -81,7 +102,7 @@ function warning() {
 			});
 
 		} else {
-			clearInterval(interval);
+			clearInterval(idleInterval);
 		}
 	});
 }
@@ -94,28 +115,49 @@ function changeWorkMode(withAlerts = false) {
 			if (withAlerts === true) {
 				alert('Starting work mode');
 			}
+			alert('you underestimate my power');
 
-			interval = setInterval(() => {
+			idleInterval = setInterval(() => {
 				chrome.idle.queryState(seconds, state => {
 					if (state == 'idle') {
 						warning();
 					}
 				});
-				console.log('1 second')
 			}, 1000);
 		}
 		
 		else {
+			alert('its over anakin');
 			if (withAlerts === true) {
 				alert('All done :)');
 			}
 
-			clearInterval(interval);
+			clearInterval(idleInterval);
 		}
 
 		set({'workMode': !workMode});
 	});
 }
+
+function checkWorkingHours() {
+	workingHoursInterval = setInterval(() => {
+		get(null, (result) => {
+			beginTime = result.beginTime;
+			endTime = result.endTime;
+			currentTime = time();
+
+			if (beginTime == currentTime) {
+				set({'workMode': true});
+				alert('Time to start working');
+			}
+			else if (endTime == currentTime) {
+				set({'workMode': false});
+				alert('All done! :)');
+			}
+		});
+	}, 60 * 1000);
+}
+checkWorkingHours();
 
 // Main
 chrome.commands.onCommand.addListener(command => {

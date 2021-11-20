@@ -123,6 +123,68 @@ function updateGraph(period) {
 			}
 		}
 
+		else if (period == 'weekly') {
+			// Get the last 8 weeks
+			total = 0;
+			max = 0;
+			weekDistractions = [];
+			day = new Date();
+			for (i=0; i<8; i++) {
+				weekDistractions.push(0);
+				distraction = getNestedObject(distractions, [year(day), month(day), date(day)]);
+				if (!distraction)
+					distraction = 0;
+				weekDistractions[i] += distraction;
+				while (day.getDay() != 0) {
+					day.setDate(day.getDate() - 1);
+					distraction = getNestedObject(distractions, [year(day), month(day), date(day)]);
+					if (!distraction)
+						distraction = 0;
+					weekDistractions[i] += distraction;
+				}
+				day.setDate(day.getDate() - 1);
+				total += weekDistractions[i];
+				if (weekDistractions[i] > max)
+					max = weekDistractions[i];
+			}
+
+			// Round max up to the nearest 4, because there are 4 y-axis labels
+			yAxisLabels = 4;
+			max += (yAxisLabels - max % yAxisLabels);
+
+			// Get divs
+			weekly = document.getElementById('weekly');
+			bars = weekly.getElementsByClassName('bars')[0];
+			yAxis = weekly.getElementsByClassName('yAxis')[0];
+			xAxis = weekly.getElementsByClassName('xAxis')[0];
+
+			// Clear
+			bars.innerHTML = '';
+			yAxis.innerHTML = '';
+			xAxis.innerHTML = '';
+
+			// Set total
+			document.getElementById('total').innerHTML = total;
+			document.getElementById('timeSpan').innerHTML = 'reminders in the last 8 weeks';
+
+			// Create y-axis
+			for (i=0; i<=yAxisLabels; i++) {
+				yAxis.innerHTML += '<p>' + (i/yAxisLabels * max) + '</p>';
+			}
+
+			// Create x-axis
+			weeks = ['7', '6', '5', '4', '3', '2', '1', '0'];
+			for (i=0; i<weeks.length; i++) {
+				xAxis.innerHTML += '<p>' + weeks[i] + '</p>';
+			}
+
+			// Create bars
+			for (i=7; i>=0; i--) {
+				height = (weekDistractions[i] / max * 100);
+				bars.innerHTML += '<div class="bar" style="height: ' + height + '%;"></div>';
+			}
+		}
+
 		else if (period == 'monthly') {
 			// Get the last 12 months
 			total = 0;

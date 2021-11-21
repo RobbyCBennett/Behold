@@ -115,7 +115,6 @@ function changeWorkMode(withAlerts = false) {
 			if (withAlerts === true) {
 				alert('Starting work mode');
 			}
-			alert('you underestimate my power');
 
 			idleInterval = setInterval(() => {
 				chrome.idle.queryState(seconds, state => {
@@ -127,7 +126,6 @@ function changeWorkMode(withAlerts = false) {
 		}
 		
 		else {
-			alert('its over anakin');
 			if (withAlerts === true) {
 				alert('All done :)');
 			}

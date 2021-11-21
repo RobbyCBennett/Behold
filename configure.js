@@ -1,3 +1,6 @@
+// Global Variables
+inConfigWindow = true;
+
 // Helper Functions
 function getNestedObject(object, strings) {
 	if (!object)

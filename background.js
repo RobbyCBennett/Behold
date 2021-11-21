@@ -2,6 +2,7 @@
 seconds = 15;
 idleInterval = null;
 workingHoursInterval = null;
+inConfigWindow = false;
 
 // API Helper Functions
 function get(key, callback = null) {
@@ -101,8 +102,6 @@ function warning() {
 				}
 			});
 
-		} else {
-			clearInterval(idleInterval);
 		}
 	});
 }
@@ -116,21 +115,21 @@ function changeWorkMode(withAlerts = false) {
 				alert('Starting work mode');
 			}
 
-			idleInterval = setInterval(() => {
-				chrome.idle.queryState(seconds, state => {
-					if (state == 'idle') {
-						warning();
-					}
-				});
-			}, 1000);
+			if (! inConfigWindow) {
+				idleInterval = setInterval(() => {
+					chrome.idle.queryState(seconds, state => {
+						if (state == 'idle') {
+							warning();
+						}
+					});
+				}, 1000);	
+			}
 		}
 		
 		else {
 			if (withAlerts === true) {
 				alert('All done :)');
 			}
-
-			clearInterval(idleInterval);
 		}
 
 		set({'workMode': !workMode});

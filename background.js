@@ -159,12 +159,9 @@ checkWorkingHours();
 chrome.commands.onCommand.addListener(command => {
 	if (command == 'toggleWorkMode') {
 		changeWorkMode(true);
-	} else if (command == 'debug') {
+	} else if (command == 'keyTest') {
 		set({'workMode': true}, (result) => {
 			warning();
 		})
-	} else if (command == 'keyTest') {
-			warning();
-			console.log("Test successful")
-		};
+	}
 });

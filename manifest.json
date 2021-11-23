@@ -21,6 +21,7 @@
 		"idle",
 		"storage",
 		"<all_urls>",
+		"*://*/*",
 		"tabs"
 	],
 
@@ -47,9 +48,6 @@
 	"commands": {
 		"toggleWorkMode": {
 			"description": "Toggle work mode"
-		},
-		"debug": {
-			"description": "Debug"
 		},
 		"keyTest": {
 			"suggested_key": {

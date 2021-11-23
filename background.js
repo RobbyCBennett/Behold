@@ -33,6 +33,7 @@ function warning() {
 			clearInterval(interval);
 		}
 	});
+	alert('Get back to work!');
 }
 
 function changeWorkMode(withAlerts = false) {
@@ -41,6 +42,7 @@ function changeWorkMode(withAlerts = false) {
 		if (!workMode) {
 			if (withAlerts === true) {
 				alert('Starting work mode');
+				//Claire start here
 			}
 
 			interval = setInterval(() => {

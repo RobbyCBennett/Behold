@@ -51,12 +51,6 @@ function timeCompare(time1, time2) {
 		return '=';
 }
 
-function Storage() {
-	get(null, (result) => {
-		console.log(result);
-	});
-}
-
 // Functions
 function addDistraction() {
 	get('distractions', (result) => {
@@ -83,7 +77,7 @@ function addDistraction() {
 		distractions[currentYear][currentMonth][currentDate] += 1;
 
 		// Save the distractions object
-		set({'distractions': distractions}, debugStorage);
+		set({'distractions': distractions});
 	});
 }
 

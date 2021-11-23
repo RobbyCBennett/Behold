@@ -48,7 +48,7 @@ get('workMode', (result) => {
 });
 
 // Working Hours
-begimeField = document.getElementById('beginTime');
+beginTimeField = document.getElementById('beginTime');
 endTimeField = document.getElementById('endTime');
 function loadWorkingTime() {
 	get(null, (result) => {

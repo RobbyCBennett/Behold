@@ -40,13 +40,15 @@ const init = function() {
 	btn.style.borderRadius = "12px";
 	btn.style.color = "#292a2d";
 	btn.style.cursor = "pointer";
-
-	// btn.onclick = "closeReminder()";
+	btn.onclick = function() {
+		injectElement.style.display = "none";
+	}
 	
 	document.body.appendChild(injectElement);
 	injectElement.appendChild(msg);
 	injectElement.appendChild(img);
 	injectElement.appendChild(btn);
+
 	
 	console.log("it works!")
 }
@@ -55,11 +57,6 @@ const init = function() {
 init();
 
 
-document.getElementsByClassName("reminder-btn").onclick = closeReminder();
-
-const closeReminder = function() {
-	document.getElementsByClassName("reminder-box").style.display = "none";
-}
 
 
 

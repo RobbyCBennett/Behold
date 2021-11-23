@@ -1,4 +1,4 @@
-const init = function() {
+reminderPopup = function() {
 	const injectElement = document.createElement('div');
 	injectElement.className = "reminder-box";
 	injectElement.style.width = "650px";
@@ -54,7 +54,7 @@ const init = function() {
 }
 
 
-init();
+reminderPopup();
 
 
 

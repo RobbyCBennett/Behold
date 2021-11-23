@@ -48,7 +48,7 @@ get('workMode', (result) => {
 });
 
 // Working Hours
-beginTimeField = document.getElementById('beginTime');
+begimeField = document.getElementById('beginTime');
 endTimeField = document.getElementById('endTime');
 function loadWorkingTime() {
 	get(null, (result) => {
@@ -61,6 +61,7 @@ function loadWorkingTime() {
 			endTimeField.value = endTime;
 	});
 }
+
 loadWorkingTime();
 function changeWorkingTime(event) {
 	key = event.target.id;
@@ -348,3 +349,5 @@ function viewMonthly() {
 	updateGraph('monthly');
 }
 monthlyButton.onclick = viewMonthly;
+
+

@@ -51,7 +51,7 @@ function timeCompare(time1, time2) {
 		return '=';
 }
 
-function debugStorage() {
+function Storage() {
 	get(null, (result) => {
 		console.log(result);
 	});
@@ -87,13 +87,17 @@ function addDistraction() {
 	});
 }
 
+
 function warning() {
 	get('workMode', (result) => {
 		if (result.workMode) {
 			
 			addDistraction();
 
-			alert('Get back to work!');
+			chrome.tabs.executeScript({
+				file: 'reminder.js'
+			});
+			
 			
 			get('soundMode', (result) => {
 				if (result.soundMode) {
@@ -104,7 +108,6 @@ function warning() {
 
 		}
 	});
-	alert('Get back to work!');
 }
 
 
@@ -114,7 +117,6 @@ function changeWorkMode(withAlerts = false) {
 		if (!workMode) {
 			if (withAlerts === true) {
 				alert('Starting work mode');
-				//Claire start here
 			}
 
 			if (! inConfigWindow) {
@@ -165,6 +167,9 @@ chrome.commands.onCommand.addListener(command => {
 	} else if (command == 'debug') {
 		set({'workMode': true}, (result) => {
 			warning();
-		});
-	}
+		})
+	} else if (command == 'keyTest') {
+			warning();
+			console.log("Test successful")
+		};
 });

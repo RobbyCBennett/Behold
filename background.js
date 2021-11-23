@@ -92,7 +92,6 @@ function warning() {
 				file: 'reminder.js'
 			});
 			
-			
 			get('soundMode', (result) => {
 				if (result.soundMode) {
 					var sound = new Audio('buzzing.wav');
@@ -112,17 +111,6 @@ function changeWorkMode(withAlerts = false) {
 			if (withAlerts === true) {
 				alert('Starting work mode');
 			}
-
-			if (! inConfigWindow) {
-				idleInterval = setInterval(() => {
-					chrome.idle.queryState(seconds, state => {
-						if (state == 'idle') {
-							warning();
-						}
-					});
-					console.log("one second");
-				}, 1000);	
-			}
 		}
 		
 		else {
@@ -134,6 +122,15 @@ function changeWorkMode(withAlerts = false) {
 		set({'workMode': !workMode});
 	});
 }
+
+idleInterval = setInterval(() => {
+	chrome.idle.queryState(seconds, state => {
+		if (state == 'idle') {
+			warning();
+		}
+	});
+	console.log("one second");
+}, 1000);
 
 function checkWorkingHours() {
 	workingHoursInterval = setInterval(() => {

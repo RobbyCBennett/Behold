@@ -126,6 +126,7 @@ function changeWorkMode(withAlerts = false) {
 							warning();
 						}
 					});
+					console.log("one second");
 				}, 1000);	
 			}
 		}

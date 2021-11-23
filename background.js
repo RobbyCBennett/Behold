@@ -1,43 +1,115 @@
 // Global Variables
 seconds = 15;
-interval = null;
+idleInterval = null;
+workingHoursInterval = null;
+inConfigWindow = false;
 
 // API Helper Functions
-function getLocal(key, callback = null) {
+function get(key, callback = null) {
 	chrome.storage.local.get(key, callback);
 }
-
-function setLocal(keyValue, callback = null) {
+function set(keyValue, callback = null) {
 	chrome.storage.local.set(keyValue, callback);
 }
 
-function getSync(key, callback = null) {
-	chrome.storage.sync.get(key, callback);
+function year(day=new Date()) {
+	yyyy = day.getFullYear();
+	return 'year' + yyyy;
+}
+function monthNumber(day=new Date()) {
+	return day.getMonth() + 1;
+}
+function month(day=new Date()) {
+	mm = String(day.getMonth() + 1).padStart(2, '0');
+	return 'month' + mm;
+}
+function date(day=new Date()) {
+	dd = String(day.getDate()).padStart(2, '0');
+	return 'date' + dd;
+}
+function weekday(day=new Date()) {
+	return day.getDay();
+}
+function time(day=new Date()) {
+	return String(day.getHours()).padStart(2, '0') + ':' + String(day.getMinutes()).padStart(2, '0');
+}
+function timeCompare(time1, time2) {
+	time1 = time1.split(':');
+	time2 = time2.split(':');
+	hours1 = parseInt(time1[0]);
+	hours2 = parseInt(time2[0]);
+	minutes1 = parseInt(time1[1]);
+	minutes2 = parseInt(time2[1]);
+	totalMinutes1 = hours1 * 60 + minutes1;
+	totalMinutes2 = hours2 * 60 + minutes2;
+
+	if (totalMinutes1 < totalMinutes2)
+		return '<';
+	else if (totalMinutes1 > totalMinutes2)
+		return '>';
+	else
+		return '=';
 }
 
-function setSync(keyValue, callback = null) {
-	chrome.storage.sync.set(keyValue, callback);
+function debugStorage() {
+	get(null, (result) => {
+		console.log(result);
+	});
 }
 
 // Functions
-function saveCurrentTime() {
-	
+function addDistraction() {
+	get('distractions', (result) => {
+		// Get distractions and current day
+		distractions = result.distractions;
+		currentYear = year();
+		currentMonth = month();
+		currentDate = date();
+
+		// Make the missing objects
+		if (! distractions)
+			distractions = {'total': 0};
+		if (! distractions[currentYear])
+			distractions[currentYear] = {'total': 0};
+		if (! distractions[currentYear][currentMonth])
+			distractions[currentYear][currentMonth] = {'total': 0};
+		if (! distractions[currentYear][currentMonth][currentDate])
+			distractions[currentYear][currentMonth][currentDate] = 0;
+
+		// Add one to each total
+		distractions['total'] += 1;
+		distractions[currentYear]['total'] += 1;
+		distractions[currentYear][currentMonth]['total'] += 1;
+		distractions[currentYear][currentMonth][currentDate] += 1;
+
+		// Save the distractions object
+		set({'distractions': distractions}, debugStorage);
+	});
 }
 
 function warning() {
-	getLocal('workMode', (result) => {
+	get('workMode', (result) => {
 		if (result.workMode) {
+			
+			addDistraction();
+
 			alert('Get back to work!');
-			saveCurrentTime();
-		} else {
-			clearInterval(interval);
+			
+			get('soundMode', (result) => {
+				if (result.soundMode) {
+					var sound = new Audio('buzzing.wav');
+					sound.play();
+				}
+			});
+
 		}
 	});
 	alert('Get back to work!');
 }
 
+
 function changeWorkMode(withAlerts = false) {
-	getLocal('workMode', (result) => {
+	get('workMode', (result) => {
 		workMode = result.workMode;
 		if (!workMode) {
 			if (withAlerts === true) {
@@ -45,32 +117,54 @@ function changeWorkMode(withAlerts = false) {
 				//Claire start here
 			}
 
-			interval = setInterval(() => {
-				chrome.idle.queryState(seconds, state => {
-					if (state == 'idle') {
-						warning();
-					}
-				});
-			}, seconds * 1000);
+			if (! inConfigWindow) {
+				idleInterval = setInterval(() => {
+					chrome.idle.queryState(seconds, state => {
+						if (state == 'idle') {
+							warning();
+						}
+					});
+				}, 1000);	
+			}
 		}
 		
 		else {
 			if (withAlerts === true) {
 				alert('All done :)');
 			}
-
-			clearInterval(interval);
 		}
 
-		setLocal({'workMode': !workMode});
+		set({'workMode': !workMode});
 	});
 }
+
+function checkWorkingHours() {
+	workingHoursInterval = setInterval(() => {
+		get(null, (result) => {
+			beginTime = result.beginTime;
+			endTime = result.endTime;
+			currentTime = time();
+
+			if (beginTime == currentTime) {
+				set({'workMode': true});
+				alert('Time to start working');
+			}
+			else if (endTime == currentTime) {
+				set({'workMode': false});
+				alert('All done! :)');
+			}
+		});
+	}, 60 * 1000);
+}
+checkWorkingHours();
 
 // Main
 chrome.commands.onCommand.addListener(command => {
 	if (command == 'toggleWorkMode') {
 		changeWorkMode(true);
+	} else if (command == 'debug') {
+		set({'workMode': true}, (result) => {
+			warning();
+		});
 	}
 });
-
-//claire's test comment

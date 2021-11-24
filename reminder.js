@@ -4,8 +4,12 @@ reminderPopup = function() {
 	// If it already exists, just make it visible
 	oldInjectElement = document.getElementById(injectElementId);
 	if (oldInjectElement) {
-		oldInjectElement.style.display = 'flex';
-		return;
+		if (oldInjectElement.style.display != 'none') {
+			return false;
+		} else {
+			oldInjectElement.style.display = 'flex';
+			return true;
+		}
 	}
 
 	const injectElement = document.createElement('div');
@@ -59,6 +63,7 @@ reminderPopup = function() {
 	injectElement.appendChild(img);
 	injectElement.appendChild(btn);
 
+	return true;
 }
 
 

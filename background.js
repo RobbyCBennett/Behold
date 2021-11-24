@@ -85,17 +85,20 @@ function addDistraction() {
 function warning() {
 	get('workMode', (result) => {
 		if (result.workMode) {
-			
-			addDistraction();
 
-			chrome.tabs.executeScript({
+			chrome.tabs.executeScript(null, {
 				file: 'reminder.js'
-			});
-			
-			get('soundMode', (result) => {
-				if (result.soundMode) {
-					var sound = new Audio('buzzing.wav');
-					sound.play();
+			}, function(results) {
+				poppedUp = results[0];
+				if (poppedUp) {
+					addDistraction();
+
+					get('soundMode', (result) => {
+						if (result.soundMode) {
+							var sound = new Audio('buzzing.wav');
+							sound.play();
+						}
+					});
 				}
 			});
 
@@ -129,7 +132,6 @@ idleInterval = setInterval(() => {
 			warning();
 		}
 	});
-	console.log("one second");
 }, 1000);
 
 function checkWorkingHours() {
@@ -141,7 +143,7 @@ function checkWorkingHours() {
 
 			if (beginTime == currentTime) {
 				set({'workMode': true});
-				alert('Time to start working');
+				alert('Starting work mode');
 			}
 			else if (endTime == currentTime) {
 				set({'workMode': false});

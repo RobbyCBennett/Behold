@@ -1,5 +1,15 @@
+injectElementId = 'buzzy-reminder-box';
+
 reminderPopup = function() {
+	// If it already exists, just make it visible
+	oldInjectElement = document.getElementById(injectElementId);
+	if (oldInjectElement) {
+		oldInjectElement.style.display = 'flex';
+		return;
+	}
+
 	const injectElement = document.createElement('div');
+	injectElement.id = injectElementId;
 	injectElement.className = "reminder-box";
 	injectElement.style.width = "650px";
 	injectElement.style.borderRadius = "36px";
@@ -40,7 +50,7 @@ reminderPopup = function() {
 	btn.style.borderRadius = "12px";
 	btn.style.color = "#292a2d";
 	btn.style.cursor = "pointer";
-	btn.onclick = function() {
+	btn.onclick = () => {
 		injectElement.style.display = "none";
 	}
 	
@@ -49,8 +59,6 @@ reminderPopup = function() {
 	injectElement.appendChild(img);
 	injectElement.appendChild(btn);
 
-	
-	console.log("it works!")
 }
 
 

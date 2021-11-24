@@ -21,7 +21,6 @@
 		"idle",
 		"storage",
 		"<all_urls>",
-		"*://*/*",
 		"tabs"
 	],
 

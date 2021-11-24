@@ -54,6 +54,7 @@ reminderPopup = function() {
 	btn.style.borderRadius = "12px";
 	btn.style.color = "#292a2d";
 	btn.style.cursor = "pointer";
+	btn.style.border = "none";
 	btn.onclick = () => {
 		injectElement.style.display = "none";
 	}

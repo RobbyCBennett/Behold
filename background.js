@@ -51,6 +51,16 @@ function timeCompare(time1, time2) {
 		return '=';
 }
 
+function validUrl(string) {
+	website = new RegExp('http(|s):\/\/.*');
+	reserved = new RegExp('http(|s):\/\/chrome.google.com.*');
+	if (website.exec(string) && ! reserved.exec(string)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 // Functions
 function addDistraction() {
 	get('distractions', (result) => {
@@ -83,25 +93,47 @@ function addDistraction() {
 
 
 function warning() {
+	// If work mode
 	get('workMode', (result) => {
 		if (result.workMode) {
 
-			chrome.tabs.executeScript(null, {
-				file: 'reminder.js'
-			}, function(results) {
-				poppedUp = results[0];
-				if (poppedUp) {
+			// If it's a valid url
+			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+				if (tabs.length && validUrl(tabs[0].url)) {
+
+					chrome.tabs.executeScript({file: 'reminder.js'}, function(results) {
+						poppedUp = results[0];
+						if (poppedUp) {
+							addDistraction();
+
+							get('soundMode', (result) => {
+								if (result.soundMode) {
+									var sound = new Audio('buzzing.wav');
+									sound.play();
+								}
+							});
+						}
+					});
+				}
+
+				else {
 					addDistraction();
 
 					get('soundMode', (result) => {
 						if (result.soundMode) {
 							var sound = new Audio('buzzing.wav');
 							sound.play();
+							setTimeout(function(){
+								alert('Hey there busy bee... Are you still working?');
+							}, 50);
+						}
+
+						else {
+							alert('Hey there busy bee... Are you still working?');
 						}
 					});
 				}
 			});
-
 		}
 	});
 }
@@ -161,6 +193,6 @@ chrome.commands.onCommand.addListener(command => {
 	} else if (command == 'keyTest') {
 		set({'workMode': true}, (result) => {
 			warning();
-		})
+		});
 	}
 });

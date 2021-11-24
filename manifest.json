@@ -32,17 +32,7 @@
 
 	"web_accessible_resources": [
 		"BeholdABee.png"
-		
 	],
-
-	// "content_scripts": [
-	// 	{
-	// 		"matches": ["<all_urls>"],
-	// 		"js": ["reminder.js"],
-	// 		"css": ["reminder.css"],
-	// 		"run_at": "document_end"
-	// 	}
-	// ],
 
 	"commands": {
 		"toggleWorkMode": {
